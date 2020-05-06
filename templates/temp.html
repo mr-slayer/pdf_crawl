@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <title>
+            E-book1
+        </title>
+        <!-- {% load static %}
+        <script type="text/javascript" src="{% static 'js/temp.js' %}"> -->
+            <script>
+                  
+                function send_link(temp){
+            //  alert("{{link}}")
+            
+                    var x=document.getElementById(temp).textContent;
+                
+                    //confirm(x);
+
+                    var url="/temp?link="+x;
+                  //  alert(url)
+                    
+                    var req = new XMLHttpRequest();
+                req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    //alert(req.responseText);
+                    window.open(req.responseText);
+                                                               }
+                else{
+                  document.getElementById('container').innerHTML = '<div class="loader"></div>';
+			
+                }
+                                                               
+  };
+  req.open("GET", url, true);
+  req.send();
+            
+            
+                }
+               
+            </script>
+
+       
+        {% load static %}
+      
+        <script type="text/javascript" src="{% static 'js/dom_mani.js' %}">
+        </script>
+        <style>
+           .loader {
+  border: 10px solid #f3f3f3; /* Light grey */
+  border-top: 10px solid black; /* Blue */
+  border-radius: 50%;
+  position:absolute;
+  top:270px;
+  right:700px;
+  
+  width: 120px;
+  height: 120px;
+  animation: spin 3s linear infinite;
+  animation-timing-function: ;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+          
+        .center { 
+            position: absolute; 
+            top: 0; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            margin: auto; 
+        } 
+
+            .bdr{
+                height: 500 px;
+                background-color: silver;
+                width: 450px;
+                margin: 0px auto;
+                text-align: center;
+            }
+        </style>
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'styles/temp.css' %}">
+        <script type="text/javascript">
+            document.write("<h1>hello world</h1>");
+        </script> --> 
+        {%  load static %}
+        <link href="{% static 'styles/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="all" />
+        <!-- {%  load static %}
+        <link href="{% static 'styles/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="all" />
+    -->
+    </head>
+    <body id=container>
+        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">E-book Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          <br><br>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="">Home</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="sports">contact us</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="tech">about us</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="movies">help</a>
+                  </li>
+                
+               
+              
+                
+            </ul>
+              <form class="form-inline my-2 my-lg-0" method="GET" action="search">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+          <br>
+        <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+            {% for item in h %}
+            <div class="container bdr">
+              <img src={{item.1}} style="object-fit: cover;float: left;width: 130px;height: 130px;padding-left:0mm;">
+              <h3> 
+            {{item.0}}
+            
+        <br></h3>
+            no of pages: {{item.2}}<br>
+            size: {{item.3}}
+            
+            <p id={{item.0}} style="font-size:0px" >{{item.4}}</p>
+            
+            <button id={{item.0}} type="button" onclick="send_link(this.id)">download</button>
+           
+           
+            </div>   
+        </div>
+        <br>
+        
+        {% endfor %}
+          </div>   
+
+    </body>
+</html>
